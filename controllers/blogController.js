@@ -12,7 +12,7 @@ exports.createBlog = async(req, res) => {
     }
 };
 
-// Get all blogs for the authenticated user
+// Get all blogs for the authenticated user - means your blogs if you are logged in
 exports.getAllBlogsOfUser = async(req, res) => {
     try {
         const blogs = await Blog.find({ userId: req.userData.userId });

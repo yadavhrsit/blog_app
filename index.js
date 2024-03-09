@@ -21,11 +21,10 @@ app.use(cors());
 // Routes
 const authRoutes = require('./routes/authRoutes');
 const blogRoutes = require('./routes/blogRoutes');
-const profileRoutes = require('./routes/profileRoutes');
 
 app.use('/auth', authRoutes);
 app.use('/blogs', blogRoutes);
-// app.use('/profile', profileRoutes);
+
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
