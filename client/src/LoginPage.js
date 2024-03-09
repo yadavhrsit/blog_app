@@ -21,7 +21,7 @@ function LoginPage() {
       setResponse("Login successful:");
       localStorage.setItem("BlogAppToken", response.data.token);
       setTimeout(() => {
-        navigate("/home");
+        navigate("/");
       }, 3000);
     } catch (error) {
       console.error("Login error:", error.response.data.message);
