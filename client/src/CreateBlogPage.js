@@ -31,7 +31,7 @@ function CreateBlogPage() {
       setSuccessMessage(response.data.message);
       setTitle("");
       setContent("");
-      navigate(`/${response.data.blog}`)
+      navigate(`/blog/${response.data.blog}`)
 
     } catch (error) {
       setErrorMessage(error.response.data.error);
