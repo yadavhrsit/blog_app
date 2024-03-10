@@ -1,3 +1,4 @@
+const mongoose = require('mongoose')
 const Blog = require('../models/Blog');
 
 // Create a new blog
@@ -6,7 +7,7 @@ exports.createBlog = async(req, res) => {
         const { title, content } = req.body;
         const newBlog = new Blog({ title, content, userId: req.userData.userId });
         await newBlog.save();
-        res.status(201).json({ message: 'Blog created successfully', blog: newBlog });
+        res.status(201).json({ message: 'Blog created successfully', blog: newBlog._id });
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
@@ -15,7 +16,10 @@ exports.createBlog = async(req, res) => {
 // Get all blogs for the authenticated user - means your blogs if you are logged in
 exports.getAllBlogsOfUser = async(req, res) => {
     try {
-        const blogs = await Blog.find({ userId: req.userData.userId });
+        let userId = new mongoose.Types.ObjectId(req.userData.userId);
+        const blogs = await Blog.find({
+          userId: userId,
+        });
         res.status(200).json(blogs);
     } catch (err) {
         res.status(500).json({ error: err.message });
@@ -25,6 +29,7 @@ exports.getAllBlogsOfUser = async(req, res) => {
 // Get all blogs
 exports.getAllBlogs = async(req, res) => {
     try {
+        
         const blogs = await Blog.find({});
         res.status(200).json(blogs);
     } catch (err) {

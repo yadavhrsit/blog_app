@@ -6,6 +6,7 @@ import HomePage from './HomePage';
 import BlogPage from './BlogPage';
 import MyBlogsPage from './MyBlogsPage';
 import Navbar from './Navbar';
+import CreateBlogPage from './CreateBlogPage';
 function App() {
   return (
     <div className="App">
@@ -13,9 +14,14 @@ function App() {
       <Routes>
         <Route path='login' Component={LoginPage}></Route>
         <Route path='signup' Component={Signup}></Route>
+
         <Route path='/' Component={HomePage}></Route>
+        
         <Route path='myblogs' Component={MyBlogsPage}></Route>
+        <Route path='create' Component={CreateBlogPage}></Route>
+
         <Route path='blog/:id' Component={BlogPage}></Route>
+        
       </Routes>
     </div>
   );

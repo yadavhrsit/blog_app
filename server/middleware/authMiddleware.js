@@ -1,20 +1,13 @@
-// Instructions:
+const jwt = require("jsonwebtoken");
+const config = require("../config/config");
 
-// Install necessary dependencies:
-
-// jsonwebtoken library for handling JWT
-
-// Create a configuration file (config.js) to store JWT secret key.
-
-// Implement a middleware function for JWT authentication. 
-
-// Extract JWT token from the Authorization header
-
-// Verify the JWT token using the secret key from config
-
-// Attach user data to the request object for further use
-// req.userData = { userId: decodedToken.userId };
-
-// Call the next middleware
-
-// Return 401 Unauthorized if authentication fails
+module.exports = (req, res, next) => {
+  try {
+    const token = req.headers.authorization.split(" ")[1];
+    const decodedToken = jwt.verify(token, config.jwtSecret);
+    req.userData = { userId: decodedToken.userId };
+    next();
+  } catch (error) {
+    return res.status(401).json({ message: "Authentication failed" });
+  }
+};

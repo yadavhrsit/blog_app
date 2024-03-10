@@ -12,6 +12,9 @@ function Navbar() {
           <Link to="/myblogs" className="text-white mr-4">
             MyBlogs
           </Link>
+          <Link to="/create" className="text-white mr-4">
+            Create
+          </Link>
         </div>
       </div>
     </nav>
