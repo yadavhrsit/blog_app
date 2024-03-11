@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import BlogCard from "./BlogCard"; // Import the BlogCard component
+import BlogCard from "../components/blog/BlogCard";
 
 function MyBlogsPage() {
   const navigate = useNavigate();
@@ -9,25 +9,26 @@ function MyBlogsPage() {
   const token = localStorage.getItem("BlogAppToken");
 
   useEffect(() => {
+    const fetchUserBlogs = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/blogs/user", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setBlogs(response.data);
+      } catch (error) {
+        console.error("Error fetching user blogs:", error);
+      }
+    };
     if (!token) {
       navigate("/login");
     } else {
       fetchUserBlogs();
     }
-  }, [token]);
+  }, [navigate, token]);
 
-  const fetchUserBlogs = async () => {
-    try {
-      const response = await axios.get("http://localhost:5000/blogs/user", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setBlogs(response.data);
-    } catch (error) {
-      console.error("Error fetching user blogs:", error);
-    }
-  };
+  
 
   return (
     <div className="container mx-auto py-8">

@@ -36,3 +36,9 @@
     transform: rotate(360deg);
   }
 }
+
+.hero{
+  background-image: url("./hero-bg.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+}

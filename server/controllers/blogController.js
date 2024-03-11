@@ -27,14 +27,21 @@ exports.getAllBlogsOfUser = async(req, res) => {
 }
 
 // Get all blogs
-exports.getAllBlogs = async(req, res) => {
-    try {
-        
-        const blogs = await Blog.find({});
-        res.status(200).json(blogs);
-    } catch (err) {
-        res.status(500).json({ error: err.message });
+exports.getAllBlogs = async (req, res) => {
+  try {
+    let query = {};
+    const { title } = req.query;
+
+    if (title) {
+      query = { title: { $regex: title, $options: "i" } };
     }
+
+    const blogs = await Blog.find(query);
+
+    res.status(200).json(blogs);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 };
 
 // Get blog by ID
