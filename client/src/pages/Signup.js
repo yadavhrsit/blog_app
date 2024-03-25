@@ -1,32 +1,68 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Link,useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import ShowAlert from "../utils/ShowAlert";
 
 function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [generatedPassword, setgeneratedPassword] = useState("");
   const [repeat_password, setRepeatPassword] = useState("");
-  // const [Response, setResponse] = useState(null);
+  const [profileImage, setProfileImage] = useState(null);
+
+  const [message, setMessage] = useState(null);
+  const [status, setStatus] = useState(null);
 
   const navigate = useNavigate();
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:5000/auth/signup", {
-        email: email,
-        password: password,
-      });
+      const formData = new FormData();
+      formData.append("email", email);
+      formData.append("password", password);
+      formData.append("profile", profileImage); 
+
+      const response = await axios.post(
+        "http://localhost:5000/auth/signup",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data", 
+          },
+        }
+      );
+
       console.log("Signup successful:", response.data);
-      // setResponse(response.data.message);
+      setStatus("success");
+      setMessage("Signup successful:");
       setTimeout(() => {
-        navigate('/login')
+        navigate("/login");
       }, 3000);
     } catch (error) {
       console.error("Signup error:", error.response.data.message);
-      // setResponse(error.response.data.message);
+      setStatus("error");
+      setMessage(error.response.data.message);
     }
+  };
+
+
+  const generatePassword = () => {
+    let generatedPassword = Math.random().toString(36).slice(-8);
+    setgeneratedPassword(generatedPassword);
+  };
+
+  const copyToClipboard = () => {
+    navigator.clipboard
+      .writeText(generatedPassword)
+      .then(() => {
+        console.log("Password copied to clipboard");
+        window.alert("Password copied to clipboard");
+      })
+      .catch((err) => {
+        console.error("Could not copy password: ", err);
+      });
   };
 
   return (
@@ -71,6 +107,10 @@ function Signup() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
+              <p onClick={copyToClipboard} className=" cursor-pointer">
+                {generatedPassword}
+              </p>
+              <button onClick={generatePassword}>Suggest Password</button>
             </div>
             <div className="form-control">
               <label className="label">
@@ -83,6 +123,24 @@ function Signup() {
                 required
                 value={repeat_password}
                 onChange={(e) => setRepeatPassword(e.target.value)}
+              />
+
+              <label className="label">
+                <Link to={"/login"} className="link-hover">
+                  Already a Registered User? Login now
+                </Link>
+              </label>
+            </div>
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">Profile Image</span>
+              </label>
+              <input
+                type="file"
+                name="profile"
+                className="input input-bordered"
+                required
+                onChange={(e) => setProfileImage(e.target.files[0])} 
               />
 
               <label className="label">
