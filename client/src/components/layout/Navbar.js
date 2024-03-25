@@ -8,12 +8,12 @@ function Navbar() {
         <NavLink to={"/"} className="btn btn-ghost text-xl">
           BlogSpace
         </NavLink>
-        <NavLink to={"/login"} className="btn btn-ghost text-xl">
+        {/* <NavLink to={"/login"} className="btn btn-ghost text-xl">
           Login
         </NavLink>
         <NavLink to={"/signup"} className="btn btn-ghost text-xl">
           Signup
-        </NavLink>
+        </NavLink> */}
       </div>
 
       <div className="flex-none gap-2">

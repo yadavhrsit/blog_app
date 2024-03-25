@@ -48,7 +48,7 @@ function Footer() {
         </div>
       </nav>
       <aside>
-        <p>Copyright © 2024 - All right reserved by ACME Industries Ltd</p>
+        <p>Developed by Harshit Yadav</p>
       </aside>
     </footer>
   );

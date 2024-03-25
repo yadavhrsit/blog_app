@@ -20,17 +20,16 @@ function BlogsList() {
       fetchBlogs();
     }, []);
   return (
-    <div className="container mx-auto py-8">
-      <h1 className="text-3xl font-bold mb-4">All Blogs</h1>
-      
-      {
-        loading ? <p>Loading...</p> : 
-            blogs.map((blog)=>{
-              return <BlogCard blog={blog} key={blog._id}/>
-            })
-      }
+    <div className="w-full max-w-3xl py-8">
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        blogs.map((blog) => {
+          return <BlogCard blog={blog} key={blog._id} />;
+        })
+      )}
     </div>
-  )
+  );
 }
 
 export default BlogsList

@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import ShowAlert from "../utils/ShowAlert";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  // const [Response, setResponse] = useState(null);
+  const [message, setMessage] = useState(null);
+  const [status, setStatus] = useState(null);
 
   const navigate = useNavigate();
   
@@ -16,16 +18,18 @@ function LoginPage() {
       const response = await axios.post("http://localhost:5000/auth/login", {
         email: email,
         password: password,
-      });
+      })
       console.log("Login successful:", response.data);
-      // setResponse("Login successful:");
+      setStatus("success");
+      setMessage("Login successful:");
       localStorage.setItem("BlogAppToken", response.data.token);
       setTimeout(() => {
         navigate("/");
-      }, 3000);
+      }, 2000);
     } catch (error) {
       console.error("Login error:", error.response.data.message);
-      // setResponse(error.response.data.message);
+      setStatus("error");
+      setMessage(error.response.data.message);
     }
   };
 
@@ -39,6 +43,7 @@ function LoginPage() {
             excepturi exercitationem quasi. In deleniti eaque aut repudiandae et
             a id nisi.
           </p>
+          {<ShowAlert status={status} message={message} />}
         </div>
         <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
           <form className="card-body" onSubmit={handleSubmit}>
@@ -48,7 +53,7 @@ function LoginPage() {
               </label>
               <input
                 type="email"
-                placeholder="email"
+                placeholder="Email"
                 className="input input-bordered"
                 required
                 value={email}
@@ -61,7 +66,7 @@ function LoginPage() {
               </label>
               <input
                 type="password"
-                placeholder="password"
+                placeholder="Password"
                 className="input input-bordered"
                 required
                 value={password}
